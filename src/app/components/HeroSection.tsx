@@ -8,7 +8,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex flex-col items-center justify-start min-h-[160vh] bg-black text-center text-white px-6"
+      className="relative flex flex-col items-center justify-start min-h-[180vh] bg-black text-center text-white px-6"
     >
       {/* Background image */}
       <Image
@@ -16,7 +16,7 @@ export default function HeroSection() {
         alt="Hero background"
         fill
         priority
-        className="absolute inset-0 object-cover opacity-30"
+        className="absolute inset-0 object-cover opacity-70"
       />
 
       {/* Content container */}
