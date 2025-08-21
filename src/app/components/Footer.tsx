@@ -3,13 +3,16 @@ import Link from "next/link";
 import Image from "next/image";
 
 type NavLink = { label: string; href: string };
+type FooterProps = {
+  brand: { name: string; tagline: string; logo: string };
+  legal: {
+    copyrightName: string;
+    links: { label: string; href: string }[];
+    badgeNote: string;
+  };
+};
 
-export default function Footer() {
-  const brandName = "Zsideo Coaching";
-  const siteUrl = "https://www.zsideo.com"; // <- update to your real domain
-  const logoSrc = "/logo.svg";              // <- update path if needed
-  const logoUrlAbs = `${siteUrl}/logo.png`;
-
+export default function Footer({ brand, legal }: FooterProps) {
   const addressLines = ["Shahrah-e-Faisal", "Karachi, Pakistan"];
   const email = "hello@zsideo.com";
   const phone = "+92 300 0000000";
@@ -29,18 +32,12 @@ export default function Footer() {
     { label: "About", href: "/about" },
   ];
 
-  const utilityNav: NavLink[] = [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Refund Policy", href: "/refunds" },
-  ];
-
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: brandName,
-    url: siteUrl,
-    logo: logoUrlAbs,
+    name: brand.name,
+    url: "https://www.zsideo.com", // or pass via brand if you want
+    logo: brand.logo,
     serviceType: "Business Coaching",
     sameAs: socials.map((s) => s.href),
     contactPoint: [
@@ -65,28 +62,32 @@ export default function Footer() {
 
   return (
     <footer className="relative border-t border-white/10 bg-black text-gray-300">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
+      />
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="relative rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-10 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)] before:absolute before:content-[''] before:-left-6 before:top-8 before:h-[calc(100%-4rem)] before:w-1 before:rounded-full before:bg-gradient-to-b before:from-fuchsia-500/0 before:via-fuchsia-400/70 before:to-fuchsia-500/0 after:absolute after:content-[''] after:-right-6 after:top-8 after:h-[calc(100%-4rem)] after:w-1 after:rounded-full after:bg-gradient-to-b after:from-indigo-500/0 after:via-indigo-400/70 after:to-indigo-500/0">
+        <div className="relative rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-10 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)]">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
-            {/* Brand + Promise */}
+            {/* Brand */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-white/15">
                   <Image
-                    src={logoSrc}
-                    alt={`${brandName} logo`}
+                    src={brand.logo}
+                    alt={`${brand.name} logo`}
                     fill
                     sizes="40px"
                     className="object-contain"
                     priority
                   />
                 </div>
-                <span className="text-lg font-semibold text-white">{brandName}</span>
+                <span className="text-lg font-semibold text-white">
+                  {brand.name}
+                </span>
               </div>
               <p className="text-sm leading-relaxed text-gray-400">
-                We help founders and teams install <span className="text-white">systems that sell</span>: offer clarity,
-                pipeline discipline, and automated follow‑ups—so you grow <em>profitably</em>, not just loudly.
+                {brand.tagline}
               </p>
               <Link
                 href="/book-call"
@@ -94,29 +95,40 @@ export default function Footer() {
               >
                 Book a Strategy Call
               </Link>
-              <p className="text-xs text-gray-500">
-                Avg. client lift: +30–120% in qualified pipeline within 90 days.*
-              </p>
+              <p className="text-xs text-gray-500">{legal.badgeNote}</p>
             </div>
 
             {/* Programs */}
             <nav aria-label="Programs">
-              <h3 className="mb-3 text-sm font-semibold text-white/90">Programs</h3>
-              <ul className="space-y-2">
-                <li><Link href="/programs/accelerator" className="text-sm text-gray-300 transition hover:text-white">Growth Accelerator (90‑Day)</Link></li>
-                <li><Link href="/programs/elite" className="text-sm text-gray-300 transition hover:text-white">Elite 1:1 Coaching</Link></li>
-                <li><Link href="/programs/team" className="text-sm text-gray-300 transition hover:text-white">Revenue Team Enablement</Link></li>
-                <li><Link href="/programs/playbooks" className="text-sm text-gray-300 transition hover:text-white">Playbooks & SOPs</Link></li>
-              </ul>
-            </nav>
-
-            {/* Results / Resources */}
-            <nav aria-label="Explore">
-              <h3 className="mb-3 text-sm font-semibold text-white/90">Explore</h3>
+              <h3 className="mb-3 text-sm font-semibold text-white/90">
+                Programs
+              </h3>
               <ul className="space-y-2">
                 {primaryNav.map((item) => (
                   <li key={item.href}>
-                    <Link href={item.href} className="text-sm text-gray-300 transition hover:text-white">
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-300 transition hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Explore */}
+            <nav aria-label="Explore">
+              <h3 className="mb-3 text-sm font-semibold text-white/90">
+                Explore
+              </h3>
+              <ul className="space-y-2">
+                {legal.links.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-gray-300 transition hover:text-white"
+                    >
                       {item.label}
                     </Link>
                   </li>
@@ -126,18 +138,34 @@ export default function Footer() {
 
             {/* Contact + Socials */}
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-white/90">Contact</h3>
+              <h3 className="mb-3 text-sm font-semibold text-white/90">
+                Contact
+              </h3>
               <address className="not-italic text-sm text-gray-300">
-                {addressLines.map((line) => (<div key={line}>{line}</div>))}
+                {addressLines.map((line) => (
+                  <div key={line}>{line}</div>
+                ))}
                 <div className="mt-2">
-                  <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="transition hover:text-white">{phone}</a>
+                  <a
+                    href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                    className="transition hover:text-white"
+                  >
+                    {phone}
+                  </a>
                 </div>
                 <div>
-                  <a href={`mailto:${email}`} className="transition hover:text-white">{email}</a>
+                  <a
+                    href={`mailto:${email}`}
+                    className="transition hover:text-white"
+                  >
+                    {email}
+                  </a>
                 </div>
               </address>
 
-              <h4 className="mt-5 mb-2 text-xs font-semibold text-white/90">Follow</h4>
+              <h4 className="mt-5 mb-2 text-xs font-semibold text-white/90">
+                Follow
+              </h4>
               <ul className="flex flex-wrap gap-4">
                 {socials.map((s) => (
                   <li key={s.href}>
@@ -160,14 +188,9 @@ export default function Footer() {
           <div className="my-8 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-gray-400 md:flex-row md:items-center">
-            <p>© {year} {brandName}. All rights reserved.</p>
-            <ul className="flex flex-wrap gap-4">
-              {utilityNav.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="transition hover:text-white">{item.label}</Link>
-                </li>
-              ))}
-            </ul>
+            <p>
+              © {year} {legal.copyrightName}. All rights reserved.
+            </p>
           </div>
 
           <script

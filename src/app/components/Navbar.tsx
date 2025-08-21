@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 type NavItem = { label: string; href: string };
 type Props = {
@@ -19,15 +20,14 @@ type Props = {
 };
 
 export default function PillNavbar({
-  logoSrc = "/logo.svg",
-  logoAlt = "Brand",
   items = [
-    { label: "Home", href: "/" },
-    { label: "Services", href: "/services" },
-    { label: "Work", href: "/work" },
-    { label: "Contact", href: "/contact" },
+    { label: "Home", href: "#hero" },
+    { label: "About", href: "#about" },
+    { label: "How It Works", href: "#steps" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Get Coached", href: "#cta" },
   ],
-  cta = { label: "Get Started", href: "/get-started" },
+  cta = { label: "Book Session", href: "#cta" },
   transparentUntilScroll = true,
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -83,9 +83,9 @@ export default function PillNavbar({
             "rounded-full border backdrop-blur-xl supports-[backdrop-filter]:bg-white/10",
             scrolled
               ? // Scrolled: tighter, more solid, stronger shadow
-                "border-white/15 bg-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
+              "border-white/15 bg-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
               : // Top: airy & glass
-                "border-white/10 bg-white/5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]",
+              "border-white/10 bg-white/5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]",
             "dark:border-white/10 dark:bg-white/[0.06]",
           ].join(" ")}
         >
@@ -93,16 +93,21 @@ export default function PillNavbar({
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-              aria-label={logoAlt}
+              className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+              aria-label="ZSideo Coaching"
             >
-              <img
-                src={logoSrc}
-                alt={logoAlt}
-                className="h-9 w-auto md:h-10"
-                loading="eager"
-                decoding="async"
+              {/* Logo icon */}
+              <Image
+                src="/images/logo.png" // <-- replace with your icon file in /public
+                alt="ZSideo Logo"
+                width={50}
+                height={50}
+                className="rounded-full"
               />
+              {/* Brand name */}
+              <span className="text-lg md:text-xl font-bold tracking-wide text-white">
+                Saim ZSideo
+              </span>
             </Link>
 
             {/* Center links */}
