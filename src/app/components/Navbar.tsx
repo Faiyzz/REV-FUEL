@@ -66,7 +66,7 @@ export default function PillNavbar({
 
   return (
     <header
-      className="sticky top-3 z-50 px-3 md:px-4"
+      className="sticky  z-50  md:px-4"
       role="banner"
       aria-label="Primary"
       style={{ paddingTop: "max(0.5rem, env(safe-area-inset-top))" }}

@@ -3,12 +3,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import HeroSection from "./components/HeroSection";
-import TSLSection from "./components/TSLSection";
-import StepsSection from "./components/StepSection";
-import TestimonialsReelsSection from "./components/TestimonialsReelsSection";
-import CTASection from "./components/CTASection";
-import AboutSection from "./components/AboutSection";
+
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://zsideo.com";
@@ -83,12 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-black text-white">
         <Navbar />
-        <HeroSection />
-        <TSLSection />
-        <AboutSection />
-        <StepsSection />
-        <TestimonialsReelsSection />
-        <CTASection />
+      
         {children}
         <Footer
           brand={{ name: "ZSIDEO", tagline: "We build outcomes.", logo: "/logo.svg" }}
