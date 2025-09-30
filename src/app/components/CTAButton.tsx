@@ -22,10 +22,11 @@ export default function CTAButton({
       onClick={onClick}
       className={clsx(
         "relative inline-flex items-center justify-center px-8 py-4",
-        "rounded-full font-semibold text-lg text-black",
-        "bg-gradient-to-r from-[#790BFF] via-[#A45CFF] to-[#790BFF]",
-        "shadow-[0_4px_20px_rgba(121,11,255,0.5)]",
-        "transition-all duration-300 hover:shadow-[0_6px_28px_rgba(121,11,255,0.7)]",
+        "rounded-full font-semibold text-lg text-white",
+        // 🔵 brand gradient
+        "bg-gradient-to-r from-[#3154A5] via-[#3c64c2] to-[#27427a]",
+        "shadow-[0_4px_20px_rgba(49,84,165,0.5)]",
+        "transition-all duration-300 hover:shadow-[0_6px_28px_rgba(49,84,165,0.7)]",
         className
       )}
     >

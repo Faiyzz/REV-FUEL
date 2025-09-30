@@ -13,9 +13,6 @@ type Props = {
   logoAlt?: string;
   items?: NavItem[];
   cta?: { label: string; href: string };
-  /**
-   * If true, navbar starts fully transparent and becomes more solid on scroll.
-   */
   transparentUntilScroll?: boolean;
 };
 
@@ -34,12 +31,8 @@ export default function PillNavbar({
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Close the sheet whenever route changes
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  useEffect(() => setOpen(false), [pathname]);
 
-  // Elevate & solidify on scroll
   useEffect(() => {
     if (!transparentUntilScroll) return;
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -48,7 +41,6 @@ export default function PillNavbar({
     return () => window.removeEventListener("scroll", onScroll);
   }, [transparentUntilScroll]);
 
-  // Lock body scroll when mobile menu open
   useEffect(() => {
     if (open) {
       const prev = document.body.style.overflow;
@@ -60,13 +52,11 @@ export default function PillNavbar({
   }, [open]);
 
   const isActive = (href: string) =>
-    href === "/"
-      ? pathname === "/"
-      : pathname.startsWith(href);
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header
-      className="sticky  z-50  md:px-4"
+      className="sticky z-50 md:px-4"
       role="banner"
       aria-label="Primary"
       style={{ paddingTop: "max(0.5rem, env(safe-area-inset-top))" }}
@@ -77,15 +67,12 @@ export default function PillNavbar({
           "transition-[filter,background,box-shadow,border-color] duration-300 will-change-[filter,background]",
         ].join(" ")}
       >
-        {/* Shell for the pill */}
         <div
           className={[
             "rounded-full border backdrop-blur-xl supports-[backdrop-filter]:bg-white/10",
             scrolled
-              ? // Scrolled: tighter, more solid, stronger shadow
-              "border-white/15 bg-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
-              : // Top: airy & glass
-              "border-white/10 bg-white/5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]",
+              ? "border-white/15 bg-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
+              : "border-white/10 bg-white/5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]",
             "dark:border-white/10 dark:bg-white/[0.06]",
           ].join(" ")}
         >
@@ -96,17 +83,15 @@ export default function PillNavbar({
               className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               aria-label="ZSideo Coaching"
             >
-              {/* Logo icon */}
               <Image
-                src="/images/logo.png" // <-- replace with your icon file in /public
+                src="/images/log.png"
                 alt="ZSideo Logo"
                 width={50}
                 height={50}
                 className="rounded-full"
               />
-              {/* Brand name */}
               <span className="text-lg md:text-xl font-bold tracking-wide text-white">
-                Saim ZSideo
+                ZSideo
               </span>
             </Link>
 
@@ -129,11 +114,10 @@ export default function PillNavbar({
                     >
                       <span className="relative">
                         {item.label}
-                        {/* subtle active underline */}
                         <span
                           className={[
                             "absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full",
-                            "bg-gradient-to-r from-[#3DAF84] to-[#9BE7C8]",
+                            "bg-gradient-to-r from-[#27427a] via-[#3154A5] to-[#3c64c2]",
                             active ? "scale-x-100" : "group-hover:scale-x-100",
                             "transition-transform duration-300 motion-reduce:transition-none",
                           ].join(" ")}
@@ -145,23 +129,17 @@ export default function PillNavbar({
               })}
             </ul>
 
-            {/* Right cluster: CTA + Mobile trigger */}
+            {/* Right cluster */}
             <div className="flex items-center justify-end gap-1 md:gap-2">
-              {/* Primary CTA */}
+              {/* Desktop CTA */}
               <Link
                 href={cta.href}
-                className={[
-                  "hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-black",
-                  "shadow hover:shadow-md transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50",
-                ].join(" ")}
-                style={{
-                  backgroundImage: "linear-gradient(90deg, #3DAF84, #9BE7C8)",
-                }}
+                className="hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white relative overflow-hidden btn-animated-bg"
               >
-                {cta.label}
+                <span className="relative z-10">{cta.label}</span>
               </Link>
 
-              {/* Mobile trigger — HIDE ON DESKTOP */}
+              {/* Mobile trigger */}
               <button
                 type="button"
                 onClick={() => setOpen((s) => !s)}
@@ -218,17 +196,60 @@ export default function PillNavbar({
             <li className="pt-2">
               <Link
                 href={cta.href}
-                className="flex items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold text-black shadow hover:shadow-md transition-shadow"
-                style={{
-                  backgroundImage: "linear-gradient(90deg, #3DAF84, #9BE7C8)",
-                }}
+                className="relative overflow-hidden flex items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold text-white btn-animated-bg"
               >
-                {cta.label}
+                <span className="relative z-10">{cta.label}</span>
               </Link>
             </li>
           </ul>
         </div>
       </div>
+
+      {/* 🔵 Global animated gradient styles */}
+      <style jsx global>{`
+        .btn-animated-bg {
+          position: relative;
+          isolation: isolate;
+        }
+        .btn-animated-bg::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          z-index: 0;
+          background: linear-gradient(
+            90deg,
+            #27427a,
+            #3154a5,
+            #3c64c2,
+            #27427a
+          );
+          background-size: 300% 100%;
+          animation: gradientShift 6s ease infinite;
+        }
+        .btn-animated-bg:hover::before {
+          filter: brightness(1.06);
+        }
+        .btn-animated-bg::after {
+          content: "";
+          position: absolute;
+          inset: -2px;
+          border-radius: inherit;
+          z-index: -1;
+          box-shadow: 0 8px 24px rgba(49, 84, 165, 0.35);
+        }
+        @keyframes gradientShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
     </header>
   );
 }

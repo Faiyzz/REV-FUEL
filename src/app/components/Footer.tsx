@@ -1,6 +1,7 @@
 // components/Footer.tsx
 import Link from "next/link";
 import Image from "next/image";
+import styles from "./Footer.module.css";
 
 type NavLink = { label: string; href: string };
 type FooterProps = {
@@ -36,7 +37,7 @@ export default function Footer({ brand, legal }: FooterProps) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: brand.name,
-    url: "https://www.zsideo.com", // or pass via brand if you want
+    url: "https://www.zsideo.com",
     logo: brand.logo,
     serviceType: "Business Coaching",
     sameAs: socials.map((s) => s.href),
@@ -62,10 +63,12 @@ export default function Footer({ brand, legal }: FooterProps) {
 
   return (
     <footer className="relative border-t border-white/10 bg-black text-gray-300">
+      {/* Animated hairline accent */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
+        className={`pointer-events-none absolute inset-x-0 -top-px h-px ${styles.hairline}`}
       />
+
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="relative rounded-2xl border border-white/10 bg-white/[0.04] p-8 md:p-10 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)]">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
@@ -86,15 +89,19 @@ export default function Footer({ brand, legal }: FooterProps) {
                   {brand.name}
                 </span>
               </div>
+
               <p className="text-sm leading-relaxed text-gray-400">
                 {brand.tagline}
               </p>
+
+              {/* Animated brand CTA */}
               <Link
                 href="/book-call"
-                className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] px-4 text-sm font-medium text-white transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-500"
+                className={`relative inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold text-white ${styles.btnAnimated}`}
               >
-                Book a Strategy Call
+                <span className="relative z-10">Book a Strategy Call</span>
               </Link>
+
               <p className="text-xs text-gray-500">{legal.badgeNote}</p>
             </div>
 
@@ -105,7 +112,10 @@ export default function Footer({ brand, legal }: FooterProps) {
               </h3>
               <ul className="space-y-2">
                 {primaryNav.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.href} className="flex items-start gap-2">
+                    <span
+                      className={`mt-2 inline-block h-1.5 w-1.5 rounded-full ${styles.brandDot}`}
+                    />
                     <Link
                       href={item.href}
                       className="text-sm text-gray-300 transition hover:text-white"
@@ -124,7 +134,10 @@ export default function Footer({ brand, legal }: FooterProps) {
               </h3>
               <ul className="space-y-2">
                 {legal.links.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.href} className="flex items-start gap-2">
+                    <span
+                      className={`mt-2 inline-block h-1.5 w-1.5 rounded-full ${styles.brandDot}`}
+                    />
                     <Link
                       href={item.href}
                       className="text-sm text-gray-300 transition hover:text-white"
@@ -141,6 +154,7 @@ export default function Footer({ brand, legal }: FooterProps) {
               <h3 className="mb-3 text-sm font-semibold text-white/90">
                 Contact
               </h3>
+
               <address className="not-italic text-sm text-gray-300">
                 {addressLines.map((line) => (
                   <div key={line}>{line}</div>

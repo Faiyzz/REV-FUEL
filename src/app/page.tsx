@@ -1,21 +1,24 @@
 // app/page.tsx
 import HeroSection from "./components/HeroSection";
 
-import StepsSection from "./components/StepSection";
-import TestimonialsReelsSection from "./components/TestimonialsReelsSection";
 import CTASection from "./components/CTASection";
-import AboutSection from "./components/AboutSection";
+import VideoShowreelSection from "./components/VideoShowreelSection";
+
+import ServicesSection from "./components/ServicesSection";
+import ProcessSection from "./components/ProcessSection";
+import PricingSection from "./components/PricingSection";
+import SimpleAboutSection from "./components/AboutTabsSection";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-          
-            <AboutSection />
-            <StepsSection />
-            <TestimonialsReelsSection />
-            <CTASection />
-     
+      <SimpleAboutSection />
+      <VideoShowreelSection />
+      <ServicesSection />
+      <ProcessSection />
+      <PricingSection />
+      <CTASection />
     </>
   );
 }
