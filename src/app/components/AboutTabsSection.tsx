@@ -1,111 +1,68 @@
-import Image from "next/image";
-import React from "react";
+// app/components/AboutSimpleSection.tsx
+"use client";
 
-type Img = { src: string; alt: string; width: number; height: number };
+import React from "react";
 
 const BRAND = "#3354A5";
 const BG = "#0B0B12";
 
-const DEFAULT_IMAGES: Img[] = [
-  {
-    src: "/images/about-story.jpg",
-    alt: "Stratos team planning content",
-    width: 1920,
-    height: 1080,
-  },
-  {
-    src: "/images/about-mission.jpg",
-    alt: "Studio gear and workstation",
-    width: 1920,
-    height: 1080,
-  },
-  {
-    src: "/images/about-promise.jpg",
-    alt: "Storyboard and shot notes",
-    width: 1920,
-    height: 1080,
-  },
-];
-
-export default function AboutSimpleSection({
-  images = DEFAULT_IMAGES,
-}: {
-  images?: Img[];
-}) {
-  const [hero] = images;
-
+export default function AboutSimpleSection() {
   return (
     <section
-      className="w-full px-4 sm:px-6 lg:px-10 py-16 sm:py-20"
+      className="w-full px-6 sm:px-8 lg:px-12 py-20 sm:py-28"
       style={{
         backgroundColor: BG,
         color: "white",
         ["--brand" as string]: BRAND,
       }}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-3xl text-center">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
           <span
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage: `linear-gradient(90deg, ${BRAND}, #7C9BFF)`,
             }}
           >
-            About Stratos
+            The Stratos Story
           </span>
         </h2>
 
-        {/* One-liner */}
-        <p className="mt-4 text-white/80 text-lg">
-          We plan, clone, edit, and publish short-form video that’s clean,
-          consistent, and on-brand.
-        </p>
+        {/* Narrative */}
+        <div className="mt-12 space-y-8 text-left sm:text-center">
+          <p className="text-xl leading-8 text-white/85">
+            Before I built <strong>Stratos</strong>, I thought the{" "}
+            <span className="font-semibold">Twin Method</span> was it. Record
+            once, generate unlimited content without ever being on camera —
+            game-changing, right?
+          </p>
 
-        {/* Two-column: text + hero image */}
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-6">
-            <div className="space-y-4 text-white/85 leading-relaxed">
-              <p>
-                <strong>What we do:</strong> Stratos provides{" "}
-                <em>
-                  content strategy, cloning, video editing, and publishing
-                </em>{" "}
-                services. We map your offers, build a repeatable content engine,
-                and keep delivery on schedule.
-              </p>
-              <p>
-                <strong>How we work:</strong> Simple scopes, clear timelines,
-                and a calm, reliable process. You’ll always know what’s next and
-                when it ships.
-              </p>
-              <p>
-                <strong>Ownership:</strong> All creative materials are{" "}
-                <u>owned by you</u>. We deliver source files, exports, and any
-                agreed documentation.
-              </p>
-              <p>
-                <strong>Expectations:</strong> We guarantee delivery of the{" "}
-                <em>agreed content</em>. Outcomes such as audience growth,
-                engagement, or revenue are not guaranteed.
-              </p>
-            </div>
-          </div>
+          <blockquote className="text-2xl font-medium italic text-white/90 relative pl-6 sm:pl-0">
+            <span className="absolute left-0 top-0 h-full w-1 bg-[var(--brand)] hidden sm:block"></span>
+            “Dom, I love the Twin Method, but I don’t even want to think about
+            scripting, editing, or posting… can’t your team just do it for me?”
+          </blockquote>
 
-          <div className="lg:col-span-6">
-            {hero && (
-              <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/10 bg-black/30 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
-                <Image
-                  src={hero.src}
-                  alt={hero.alt}
-                  width={hero.width}
-                  height={hero.height}
-                  className="w-full h-auto object-cover"
-                  priority={false}
-                />
-              </div>
-            )}
-          </div>
+          <p className="text-xl leading-8 text-white/85">
+            That’s when it clicked. The real bottleneck wasn’t just{" "}
+            <em>being on camera</em> — it was the{" "}
+            <span className="font-semibold">entire content process</span>.
+            Strategy, scripts, edits, posting… all of it eats up time.
+          </p>
+
+          <p className="text-xl leading-8 text-white/85">
+            So I gave my personal content team access to a handful of creators.
+            The results? <strong>Insane.</strong> More reach. More authority.
+            More money-making content — without them lifting a finger.
+          </p>
+
+          <p className="text-xl leading-8 text-white/85 font-medium">
+            That’s what Stratos is:{" "}
+            <span className="underline">my shortcut for you</span>. The very
+            same system that powers my own brands, now available to a limited
+            number of creators who want a complete, done-for-you content engine.
+          </p>
         </div>
       </div>
     </section>
