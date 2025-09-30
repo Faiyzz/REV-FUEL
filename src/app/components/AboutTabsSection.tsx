@@ -1,142 +1,115 @@
-// app/components/ServicesSection.tsx
-"use client";
+// app/components/AboutSimpleSection.tsx
+import Image from "next/image";
+import React from "react";
 
-import * as React from "react";
-
-type ServiceSection = {
-  heading: string;
-  text?: string;
-  images?: string[];
-};
-type Service = {
-  title: string;
-  summary: string;
-  sections: ServiceSection[];
-};
+type Img = { src: string; alt: string; width: number; height: number };
 
 const BRAND = "#3354A5";
 const BG = "#0B0B12";
 
-// Keep or import your existing SERVICES array. Included here for completeness.
-const SERVICES: Service[] = [
+const DEFAULT_IMAGES: Img[] = [
   {
-    title: "Content Strategy",
-    summary:
-      "End-to-end content planning engineered for your audience, offers, and platforms.",
-    sections: [],
+    src: "/images/about-story.jpg",
+    alt: "Stratos team planning content",
+    width: 1920,
+    height: 1080,
   },
   {
-    title: "AI Cloning",
-    summary:
-      "Voice/face cloning pipelines to scale your short-form presence while staying on-brand.",
-    sections: [],
+    src: "/images/about-mission.jpg",
+    alt: "Studio gear and workstation",
+    width: 1920,
+    height: 1080,
   },
   {
-    title: "Video Editing",
-    summary:
-      "High-velocity edits for Reels, TikTok, and Shorts with tight hooks, pacing, and captions.",
-    sections: [],
-  },
-  {
-    title: "Publishing",
-    summary:
-      "Platform-native scheduling, metadata, and distribution to maximize reach and consistency.",
-    sections: [],
+    src: "/images/about-promise.jpg",
+    alt: "Storyboard and shot notes",
+    width: 1920,
+    height: 1080,
   },
 ];
 
-export default function ServicesSection() {
-  // Subtle icon colors that sit well on dark theme
-  const ICONS = ["#5EEAD4", "#FCA5A5", "#93C5FD", "#D8B4FE"]; // teal/rose/blue/purple
+export default function AboutSimpleSection({
+  images = DEFAULT_IMAGES,
+}: {
+  images?: Img[];
+}) {
+  const [hero, ...rest] = images;
 
   return (
     <section
-      aria-label="Services"
-      className="w-full px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-24 relative isolate"
-      style={{ backgroundColor: BG, color: "white", ["--brand" as any]: BRAND }}
+      className="w-full px-4 sm:px-6 lg:px-10 py-16 sm:py-20"
+      style={{
+        backgroundColor: BG,
+        color: "white",
+        ["--brand" as string]: BRAND,
+      }}
     >
-      {/* soft background grid + glow like AboutSimpleSection */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 opacity-[0.14] bg-[linear-gradient(0deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:44px_44px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(51,84,165,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(164,120,255,0.25),transparent_50%)]" />
-      </div>
-
       <div className="mx-auto max-w-6xl">
-        {/* Heading + subheading (same gradient style as About) */}
-        <div className="text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: `linear-gradient(90deg, ${BRAND}, #7C9BFF)`,
-              }}
-            >
-              Our Services
-            </span>
-          </h2>
-          <p className="mt-3 text-white/70 max-w-2xl mx-auto">
-            Plan, clone, edit, and publish short-form content—clean, consistent,
-            on-brand.
-          </p>
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage: `linear-gradient(90deg, ${BRAND}, #7C9BFF)`,
+            }}
+          >
+            About Stratos
+          </span>
+        </h2>
+
+        {/* One-liner */}
+        <p className="mt-4 text-white/80 text-lg">
+          We plan, clone, edit, and publish short-form video that’s clean,
+          consistent, and on-brand.
+        </p>
+
+        {/* Two-column: text + hero image */}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-6">
+            <div className="space-y-4 text-white/85 leading-relaxed">
+              <p>
+                <strong>What we do:</strong> Stratos provides{" "}
+                <em>
+                  content strategy, cloning, video editing, and publishing
+                </em>{" "}
+                services. We map your offers, build a repeatable content engine,
+                and keep delivery on schedule.
+              </p>
+              <p>
+                <strong>How we work:</strong> Simple scopes, clear timelines,
+                and a calm, reliable process. You’ll always know what’s next and
+                when it ships.
+              </p>
+              <p>
+                <strong>Ownership:</strong> All creative materials are{" "}
+                <u>owned by you</u>. We deliver source files, exports, and any
+                agreed documentation.
+              </p>
+              <p>
+                <strong>Expectations:</strong> We guarantee delivery of the{" "}
+                <em>agreed content</em>. Outcomes such as audience growth,
+                engagement, or revenue are not guaranteed.
+              </p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6">
+            {hero && (
+              <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/10 bg-black/30 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+                <Image
+                  src={hero.src}
+                  alt={hero.alt}
+                  width={hero.width}
+                  height={hero.height}
+                  className="w-full h-auto object-cover"
+                  priority={false}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Cards */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {SERVICES.map((svc, i) => {
-            const color = ICONS[i % ICONS.length];
-            return (
-              <article
-                key={svc.title}
-                className="
-                  rounded-2xl
-                  bg-white/[0.035] backdrop-blur-[2px]
-                  ring-1 ring-white/10
-                  shadow-[0_10px_40px_rgba(0,0,0,0.35)]
-                  p-6
-                  transition
-                  hover:bg-white/[0.06]
-                  hover:ring-[--brand]/40
-                "
-              >
-                {/* Icon dot */}
-                <div className="mb-4">
-                  <span
-                    aria-hidden
-                    className="inline-grid place-items-center w-10 h-10 rounded-full text-[#0B0B12] font-semibold"
-                    style={{ backgroundColor: color }}
-                  >
-                    {svc.title.charAt(0)}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-lg font-semibold">{svc.title}</h3>
-
-                {/* Summary */}
-                <p className="mt-2 text-sm text-white/75 leading-relaxed">
-                  {svc.summary}
-                </p>
-
-                {/* CTA */}
-                <div className="mt-5">
-                  <button
-                    type="button"
-                    className="
-                      inline-flex items-center justify-center
-                      rounded-md border border-white/15
-                      px-3 py-2 text-sm font-medium
-                      text-white
-                      hover:bg-white/5
-                      focus:outline-none focus:ring-2 focus:ring-[--brand]/40
-                    "
-                  >
-                    View more
-                  </button>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        {/* Simple image strip */}
       </div>
     </section>
   );
