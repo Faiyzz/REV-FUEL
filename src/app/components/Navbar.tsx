@@ -12,7 +12,6 @@ type Props = {
   logoAlt?: string;
   items?: NavItem[];
   cta?: { label: string; href: string };
-  transparentUntilScroll?: boolean;
 };
 
 export default function PillNavbar({
@@ -24,30 +23,23 @@ export default function PillNavbar({
     { label: "Get Coached", href: "#cta" },
   ],
   cta = { label: "Book Session", href: "#cta" },
-  transparentUntilScroll = true,
+  logoSrc = "/images/log.png",
+  logoAlt = "",
 }: Props) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  // close mobile sheet on route change
   useEffect(() => setOpen(false), [pathname]);
 
+  // lock body scroll when mobile menu open
   useEffect(() => {
-    if (!transparentUntilScroll) return;
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [transparentUntilScroll]);
-
-  useEffect(() => {
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [open]);
 
   const isActive = (href: string) =>
@@ -55,10 +47,7 @@ export default function PillNavbar({
 
   return (
     <header
-      className={[
-        "pill-navbar fixed inset-x-0 top-0 z-50",
-        scrolled ? "is-scrolled" : "is-top",
-      ].join(" ")}
+      className="pill-navbar fixed inset-x-0 top-0 z-50 is-glassy"
       role="banner"
       aria-label="Primary"
     >
@@ -72,8 +61,8 @@ export default function PillNavbar({
               aria-label="ZSideo Coaching"
             >
               <Image
-                src="/images/log.png"
-                alt="ZSideo Logo"
+                src={logoSrc}
+                alt={logoAlt}
                 width={50}
                 height={50}
                 className="rounded-full"

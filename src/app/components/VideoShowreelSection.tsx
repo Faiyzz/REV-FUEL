@@ -3,9 +3,7 @@
 import React, { useMemo, useRef, useState } from "react";
 
 // Primary brand & CTA color
-const BRAND = {
-  hex: "#3354A5",
-};
+const BRAND = { hex: "#3354A5" };
 
 // —— Types
 type Reel = {
@@ -16,73 +14,19 @@ type Reel = {
 
 // —— Demo data (replace with your files). Ensure these exist in /public/videos and /public/posters
 const REELS: Reel[] = [
-  { src: "/images/v1.mp4", poster: "", title: "Reel 1" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-2.jpg", title: "Reel 2" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-3.jpg", title: "Reel 3" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-4.jpg", title: "Reel 4" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-5.jpg", title: "Reel 5" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-6.jpg", title: "Reel 6" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-7.jpg", title: "Reel 7" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-8.jpg", title: "Reel 8" },
-  { src: "/images/v1.mp4", poster: "/posters/reel-9.jpg", title: "Reel 9" },
-  {
-    src: "/images/v1.mp4",
-    poster: "/posters/reel-10.jpg",
-    title: "Reel 10",
-  },
-  // add more if you like
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 1" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 2" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 3" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 4" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 5" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 6" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 7" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 8" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 9" },
+  { src: "/images/v1.mp4", poster: "/images/poster.png", title: "Reel 10" },
 ];
 
-// —— Utility: clamp helper
-const clamp = (n: number, min: number, max: number) =>
-  Math.min(Math.max(n, min), max);
-
-// —— A lightweight “3D tilt” wrapper
-function TiltCard({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [style, setStyle] = useState<React.CSSProperties>({});
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left; // 0 → width
-    const y = e.clientY - rect.top; // 0 → height
-
-    // Map pointer to rotation (-10deg..10deg), slight 3D lift
-    const rotateY = clamp((x / rect.width - 0.5) * 20, -12, 12);
-    const rotateX = clamp((0.5 - y / rect.height) * 20, -12, 12);
-
-    setStyle({
-      transform: `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`,
-    });
-  };
-
-  const reset = () => {
-    setStyle({
-      transform: "perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)",
-    });
-  };
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={reset}
-      className={className}
-      style={style}
-    >
-      {children}
-    </div>
-  );
-}
-
+// —— Reel card (no 3D/tilt)
 function ReelCard({ reel }: { reel: Reel }) {
   const vref = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -102,7 +46,7 @@ function ReelCard({ reel }: { reel: Reel }) {
   };
 
   return (
-    <TiltCard className="group relative w-[76vw] sm:w-64 md:w-72 lg:w-80 xl:w-[22rem] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden ring-1 ring-white/8 shadow-[0_10px_40px_rgba(0,0,0,0.45)] transition-transform duration-200 will-change-transform">
+    <div className="group relative w-[76vw] sm:w-64 md:w-72 lg:w-80 xl:w-[22rem] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden ring-1 ring-white/8 shadow-[0_10px_40px_rgba(0,0,0,0.45)] transition-transform duration-200">
       <video
         ref={vref}
         src={reel.src}
@@ -119,7 +63,7 @@ function ReelCard({ reel }: { reel: Reel }) {
       {/* subtle gradient gloss + focus ring on hover */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/0 opacity-60 mix-blend-soft-light" />
       <div className="pointer-events-none absolute inset-0 ring-0 group-hover:ring-2 group-focus:ring-2 ring-[--brand] transition-all" />
-    </TiltCard>
+    </div>
   );
 }
 
@@ -181,12 +125,7 @@ export default function VideoShowreelSection() {
       {/* Carousel / Grid — remains consistent on mobile */}
       <div id="showreel" className="mt-10 sm:mt-12 lg:mt-16" />
 
-      <div
-        className="
-          mx-auto max-w-7xl
-          relative
-        "
-      >
+      <div className="mx-auto max-w-7xl relative">
         {/* Gradient edges for nicer overflow fade */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-16 bg-gradient-to-r from-[#0B0B12] to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-16 bg-gradient-to-l from-[#0B0B12] to-transparent z-10" />
@@ -200,7 +139,7 @@ export default function VideoShowreelSection() {
           "
           style={{ WebkitOverflowScrolling: "touch" }}
         >
-          {/* hide scrollbar */}
+          {/* hide scrollbar for webkit (scoped) */}
           <style>{`.hide-scroll::-webkit-scrollbar{display:none}`}</style>
 
           {REELS.map((reel, idx) => (
