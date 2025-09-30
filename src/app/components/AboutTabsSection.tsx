@@ -1,4 +1,3 @@
-// app/components/AboutSimpleSection.tsx
 import Image from "next/image";
 import React from "react";
 
@@ -33,7 +32,7 @@ export default function AboutSimpleSection({
 }: {
   images?: Img[];
 }) {
-  const [hero, ...rest] = images;
+  const [hero] = images;
 
   return (
     <section
@@ -108,8 +107,6 @@ export default function AboutSimpleSection({
             )}
           </div>
         </div>
-
-        {/* Simple image strip */}
       </div>
     </section>
   );

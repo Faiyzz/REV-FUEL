@@ -8,3 +8,94 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+/* ===========================
+   Pill Navbar — Global Styles
+   =========================== */
+
+:root {
+  /* helps avoid notch overlap while keeping a slim top padding */
+  --safe-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* The header itself floats over hero (fixed) and stays transparent at top */
+.pill-navbar {
+  padding-top: var(--safe-top);
+  /* no background here — we want true transparency over the hero */
+}
+
+/* Inner rounded shell: transparent by default; becomes glassy on scroll */
+.pill-navbar .pill-navbar__shell {
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    border-color 300ms ease,
+    background-color 300ms ease,
+    box-shadow 300ms ease,
+    backdrop-filter 300ms ease,
+    -webkit-backdrop-filter 300ms ease;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* When scrolled, add a subtle glass effect (still looks like it floats) */
+.pill-navbar.is-scrolled .pill-navbar__shell {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* Dark mode adjustments (if you’re using class-based dark mode) */
+:root.dark .pill-navbar .pill-navbar__shell {
+  border-color: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Animated CTA gradient background */
+.btn-animated-bg {
+  position: relative;
+  isolation: isolate;
+}
+.btn-animated-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  background: linear-gradient(90deg, #27427a, #3154a5, #3c64c2, #27427a);
+  background-size: 300% 100%;
+  animation: gradientShift 6s ease infinite;
+}
+.btn-animated-bg:hover::before {
+  filter: brightness(1.06);
+}
+.btn-animated-bg::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  z-index: -1;
+  box-shadow: 0 8px 24px rgba(49, 84, 165, 0.35);
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Link underline accent (moved out of JSX) */
+.nav-underline {
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 100%;
+  border-radius: 9999px;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 300ms ease;
+  background: linear-gradient(90deg, #27427a, #3154a5, #3c64c2);
+}

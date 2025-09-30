@@ -1,4 +1,3 @@
-// components/PillNavbar.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -56,26 +55,15 @@ export default function PillNavbar({
 
   return (
     <header
-      className="sticky z-50 md:px-4"
+      className={[
+        "pill-navbar fixed inset-x-0 top-0 z-50",
+        scrolled ? "is-scrolled" : "is-top",
+      ].join(" ")}
       role="banner"
       aria-label="Primary"
-      style={{ paddingTop: "max(0.5rem, env(safe-area-inset-top))" }}
     >
-      <nav
-        className={[
-          "mx-auto max-w-7xl",
-          "transition-[filter,background,box-shadow,border-color] duration-300 will-change-[filter,background]",
-        ].join(" ")}
-      >
-        <div
-          className={[
-            "rounded-full border backdrop-blur-xl supports-[backdrop-filter]:bg-white/10",
-            scrolled
-              ? "border-white/15 bg-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
-              : "border-white/10 bg-white/5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]",
-            "dark:border-white/10 dark:bg-white/[0.06]",
-          ].join(" ")}
-        >
+      <nav className="mx-auto max-w-7xl transition-[filter,background,box-shadow,border-color] duration-300 will-change-[filter,background]">
+        <div className="pill-navbar__shell">
           <div className="grid grid-cols-[auto_1fr_auto] items-center gap-1 md:gap-3 px-2.5 py-2 md:px-4 md:py-2.5">
             {/* Logo */}
             <Link
@@ -116,10 +104,8 @@ export default function PillNavbar({
                         {item.label}
                         <span
                           className={[
-                            "absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full",
-                            "bg-gradient-to-r from-[#27427a] via-[#3154A5] to-[#3c64c2]",
+                            "nav-underline",
                             active ? "scale-x-100" : "group-hover:scale-x-100",
-                            "transition-transform duration-300 motion-reduce:transition-none",
                           ].join(" ")}
                         />
                       </span>
@@ -167,12 +153,7 @@ export default function PillNavbar({
         ].join(" ")}
         aria-hidden={!open}
       >
-        <div
-          className={[
-            "mt-3 mx-auto max-w-7xl rounded-3xl border border-white/15",
-            "bg-white/10 backdrop-blur-xl p-2.5",
-          ].join(" ")}
-        >
+        <div className="mt-3 mx-auto max-w-7xl rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-2.5">
           <ul className="flex flex-col">
             {items.map((item) => {
               const active = isActive(item.href);
@@ -204,52 +185,6 @@ export default function PillNavbar({
           </ul>
         </div>
       </div>
-
-      {/* 🔵 Global animated gradient styles */}
-      <style jsx global>{`
-        .btn-animated-bg {
-          position: relative;
-          isolation: isolate;
-        }
-        .btn-animated-bg::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          z-index: 0;
-          background: linear-gradient(
-            90deg,
-            #27427a,
-            #3154a5,
-            #3c64c2,
-            #27427a
-          );
-          background-size: 300% 100%;
-          animation: gradientShift 6s ease infinite;
-        }
-        .btn-animated-bg:hover::before {
-          filter: brightness(1.06);
-        }
-        .btn-animated-bg::after {
-          content: "";
-          position: absolute;
-          inset: -2px;
-          border-radius: inherit;
-          z-index: -1;
-          box-shadow: 0 8px 24px rgba(49, 84, 165, 0.35);
-        }
-        @keyframes gradientShift {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-      `}</style>
     </header>
   );
 }
