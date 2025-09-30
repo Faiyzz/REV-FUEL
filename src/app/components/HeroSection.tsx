@@ -5,7 +5,7 @@ import Link from "next/link";
 import StepsPills from "./StepsPills";
 import CTAButton from "./CTAButton";
 import { motion } from "framer-motion";
-import { Clock, Briefcase, TrendingUp, Users } from "lucide-react";
+import { Briefcase, TrendingUp, Users } from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -33,8 +33,7 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* BG IMAGE (NEON) — HIDDEN ON MOBILE */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 hidden md:flex justify-center">
+      <div className="pointer-events-none absolute inset-x-0 -bottom-15 z-0 hidden md:flex justify-center ">
         <Image
           src="/images/NEON 3.png"
           alt="Background"
@@ -44,10 +43,7 @@ export default function HeroSection() {
           className="object-contain object-bottom"
         />
       </div>
-      {/* If you have another BG like 'NEON 2.png' elsewhere, apply the same 'hidden md:flex' to it. */}
 
-      {/* === GRADIENT GLOWS ===
-          Keep subtle on mobile, full on desktop */}
       <div className="pointer-events-none absolute left-1/2 -top-24 h-40 w-40 -translate-x-[80px] rounded-full bg-white/20 blur-[80px] md:h-[420px] md:w-[420px] md:-top-90 md:bg-white/35 md:blur-[180px]" />
       <div className="pointer-events-none absolute -left-10 bottom-0 hidden md:block h-[520px] w-[520px] rounded-full bg-[#3154A5]/30 blur-[220px] translate-y-[-100px]" />
       <div className="pointer-events-none absolute -right-10 bottom-0 hidden md:block h-[520px] w-[520px] rounded-full bg-[#3154A5]/30 blur-[220px] translate-y-[-100px]" />
@@ -61,8 +57,13 @@ export default function HeroSection() {
           transition={{ duration: 0.7 }}
           className="text-center text-[32px] leading-[1.15] sm:text-[36px] md:text-[84px] font-bold tracking-tight"
         >
-          <span className="text-[#3154A5]">Business</span>{" "}
-          <span className="text-white">Growth Is a Choice.</span>
+          <span className="text-[#3154A5]">
+            From ‘Just a Tool’ to a Complete Team
+          </span>{" "}
+          <span className="text-white">
+            {" "}
+            I built Stratos Because You Asked for It
+          </span>
         </motion.h1>
 
         <motion.p
@@ -72,10 +73,9 @@ export default function HeroSection() {
           transition={{ delay: 0.05, duration: 0.7 }}
           className="mt-4 flex items-center gap-2 text-center text-[13px] sm:text-sm text-gray-300 md:text-base px-2"
         >
-          <Clock className="h-4 w-4 opacity-80 shrink-0" />
           <span className="max-w-[52ch]">
-            The market never sleeps, competitors never stop, and the only
-            difference is how prepared you are.
+            When I launched the Twin Method, I thought I solved it all. But then
+            the messages started flooding in...
           </span>
         </motion.p>
 
