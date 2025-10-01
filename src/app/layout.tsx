@@ -4,9 +4,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://zsideo.com";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://stratos.studio"; // TODO: update to your live domain
 
 const ogImage = `${SITE_URL}/og/og-image.jpg`; // recommended 1200x630
 
@@ -23,50 +22,51 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Stratos Content-Elevated",
-    template: "%s | ZSIDEO",
+    default: "Stratos — Content Elevated",
+    template: "%s | Stratos",
   },
   description:
-    "ZSIDEO delivers portal-grade design, glass UI, and smooth UX for coaching and business growth.",
+    "Stratos builds a done-for-you content engine with premium, white-glove execution—strategy, creation, and growth handled end to end.",
   keywords: [
-    "ZSIDEO",
-    "Coaching",
-    "Business Growth",
-    "Glass UI",
-    "Portal Design",
-    "Smooth UX",
+    "Stratos",
+    "Content Engine",
+    "Done-For-You Content",
+    "Premium Service",
+    "Brand Growth",
+    "Short-Form Video",
+    "Content Strategy",
   ],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    title: "ZSIDEO — Portal-Grade Coaching & Design",
+    title: "Stratos — Content Elevated",
     description:
-      "Portal-grade design, glass UI, and smooth UX. Start your coaching journey with ZSIDEO.",
-    siteName: "ZSIDEO",
+      "A premium, done-for-you content engine. Strategy, creation, and growth handled end to end.",
+    siteName: "Stratos",
     images: [
       {
         url: ogImage,
         width: 1200,
         height: 630,
-        alt: "ZSIDEO Coaching Portal",
+        alt: "Stratos — Content Elevated",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ZSIDEO — Portal-Grade Coaching & Design",
+    title: "Stratos — Content Elevated",
     description:
-      "Portal-grade design, glass UI, and smooth UX. Start your coaching journey with ZSIDEO.",
+      "A premium, done-for-you content engine. Strategy, creation, and growth handled end to end.",
     images: [ogImage],
-    creator: "@zsideo", // <-- update with your handle if available
+    creator: "@stratos", // TODO: update to your handle
   },
   icons: {
-     icon: [
-    { url: "/images/favicon.png", sizes: "512x512", type: "image/png" }, // new big version
-    { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-  ],
+    icon: [
+      { url: "/images/favicon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
     apple: [{ url: "/apple-touch-icon.png" }],
     shortcut: ["/favicon.ico"],
   },
@@ -78,18 +78,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-black text-white">
         <Navbar />
-      
         {children}
         <Footer
-          brand={{ name: "ZSIDEO", tagline: "We build outcomes.", logo: "/logo.svg" }}
+          brand={{ name: "Stratos", tagline: "A premium, done-for-you content engine.", logo: "/logo.svg" }}
           legal={{
-            copyrightName: "ZSIDEO",
+            copyrightName: "Stratos",
             links: [
               { label: "Privacy", href: "/privacy" },
               { label: "Terms", href: "/terms" },
               { label: "Cookies", href: "/cookies" },
             ],
-            badgeNote: "Secured • ISO 27001",
+            badgeNote: "Private Client Program",
           }}
         />
       </body>
