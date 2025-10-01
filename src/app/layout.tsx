@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ZSIDEO — Portal-Grade Coaching & Design",
+    default: "Stratos Content-Elevated",
     template: "%s | ZSIDEO",
   },
   description:

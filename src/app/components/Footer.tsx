@@ -14,15 +14,15 @@ type FooterProps = {
 };
 
 export default function Footer({ brand, legal }: FooterProps) {
-  const addressLines = ["Shahrah-e-Faisal", "Karachi, Pakistan"];
-  const email = "hello@zsideo.com";
+  const addressLines = [""];
+  const email = "";
   const phone = "+92 300 0000000";
 
   const socials = [
-    { label: "Instagram", href: "https://instagram.com/zsideo" },
-    { label: "LinkedIn", href: "https://linkedin.com/company/zsideo" },
-    { label: "YouTube", href: "https://youtube.com/@zsideo" },
-    { label: "X (Twitter)", href: "https://x.com/zsideo" },
+    { label: "Instagram", href: "https://instagram.com/" },
+    { label: "LinkedIn", href: "https://linkedin.com/company/" },
+    { label: "YouTube", href: "https://youtube.com/" },
+    { label: "X (Twitter)", href: "https://x.com/" },
   ];
 
   const primaryNav: NavLink[] = [
@@ -37,9 +37,9 @@ export default function Footer({ brand, legal }: FooterProps) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: brand.name,
-    url: "https://www.zsideo.com",
+    url: "https://",
     logo: brand.logo,
-    serviceType: "Business Coaching",
+    serviceType: "Video Editing & Content Creation",
     sameAs: socials.map((s) => s.href),
     contactPoint: [
       {
@@ -47,15 +47,15 @@ export default function Footer({ brand, legal }: FooterProps) {
         contactType: "customer support",
         email,
         telephone: phone,
-        areaServed: "PK",
+        areaServed: "",
         availableLanguage: ["en"],
       },
     ],
     address: {
       "@type": "PostalAddress",
       streetAddress: addressLines[0],
-      addressLocality: "Karachi",
-      addressCountry: "PK",
+      addressLocality: "",
+      addressCountry: "",
     },
   };
 
@@ -76,17 +76,10 @@ export default function Footer({ brand, legal }: FooterProps) {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-white/15">
-                  <Image
-                    src={brand.logo}
-                    alt={`${brand.name} logo`}
-                    fill
-                    sizes="40px"
-                    className="object-contain"
-                    priority
-                  />
+                 
                 </div>
                 <span className="text-lg font-semibold text-white">
-                  {brand.name}
+                 Stratos
                 </span>
               </div>
 
@@ -203,7 +196,7 @@ export default function Footer({ brand, legal }: FooterProps) {
 
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-gray-400 md:flex-row md:items-center">
             <p>
-              © {year} {legal.copyrightName}. All rights reserved.
+              © {year} Stratos. All rights reserved.
             </p>
           </div>
 

@@ -11,7 +11,7 @@ interface CTAButtonProps {
 }
 
 export default function CTAButton({
-  label = "Start Your Business Growth",
+  label = "Book Your Call With Me",
   onClick,
   className,
 }: CTAButtonProps) {

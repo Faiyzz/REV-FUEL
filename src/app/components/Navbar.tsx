@@ -58,17 +58,11 @@ export default function PillNavbar({
             <Link
               href="/"
               className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-              aria-label="ZSideo Coaching"
+              aria-label="Stratos"
             >
-              <Image
-                src={logoSrc}
-                alt={logoAlt}
-                width={50}
-                height={50}
-                className="rounded-full"
-              />
+             
               <span className="text-lg md:text-xl font-bold tracking-wide text-white">
-                ZSideo
+                Stratos
               </span>
             </Link>
 

@@ -56,9 +56,8 @@ export default function CTASection() {
           className="mt-6 text-base md:text-xl text-white/80"
         >
           Partner with{" "}
-          <span className="font-semibold text-white">ZSideo Coaching</span> to
-          gain the strategic clarity, frameworks, and coaching you need to scale
-          with confidence.
+          <span className="font-semibold text-white">Stratos</span>
+          
         </motion.p>
 
         {/* CTA Button */}
@@ -82,7 +81,7 @@ export default function CTASection() {
             "
             aria-label="Book your coaching session"
           >
-            Book Your Coaching Session
+            Book Your Call With Me
           </a>
         </motion.div>
 
