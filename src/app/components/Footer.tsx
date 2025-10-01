@@ -14,17 +14,35 @@ type FooterProps = {
 };
 
 export default function Footer({ brand, legal }: FooterProps) {
-  const addressLines = [""];
-  const email = "";
-  const phone = "+92 300 0000000";
-
-  const socials = [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "LinkedIn", href: "https://linkedin.com/company/" },
-    { label: "YouTube", href: "https://youtube.com/" },
-    { label: "X (Twitter)", href: "https://x.com/" },
+  /** ---------------------------------------------
+   * CONTACT (LEAVE EMPTY FOR FIRST DRAFT; FILL LATER)
+   * --------------------------------------------- */
+  const addressLines = [
+    // "Suite 1201",                 // TODO: add when ready
+    // "Shahrah-e-Faisal",           // TODO: add when ready
+    // "Karachi, Sindh 75530",       // TODO: add when ready
+    // "Pakistan",                   // TODO: add when ready
+    "",
   ];
 
+  const email = ""; // TODO: "hello@yourdomain.com"
+  const phone = "+92 300 0000000"; // TODO: update when ready
+
+  /** ---------------------------------------------
+   * SOCIALS (SAFE PLACEHOLDERS NOW; FILL LATER)
+   * --------------------------------------------- */
+  const socials = [
+    { label: "Instagram", href: "https://instagram.com/" }, // TODO: your real handle
+    { label: "LinkedIn", href: "https://linkedin.com/company/" }, // TODO
+    { label: "YouTube", href: "https://youtube.com/" }, // TODO
+    { label: "X (Twitter)", href: "https://x.com/" }, // TODO
+    // { label: "Facebook", href: "https://facebook.com/yourpage" }, // Optional
+    // { label: "TikTok", href: "https://tiktok.com/@yourhandle" }, // Optional
+  ];
+
+  /** ---------------------------------------------
+   * PRIMARY NAV (SAFE TO SHIP)
+   * --------------------------------------------- */
   const primaryNav: NavLink[] = [
     { label: "Programs", href: "/programs" },
     { label: "Client Results", href: "/results" },
@@ -33,30 +51,36 @@ export default function Footer({ brand, legal }: FooterProps) {
     { label: "About", href: "/about" },
   ];
 
+  /** ---------------------------------------------
+   * SCHEMA.ORG (COMMENTED FOR NOW; UNCOMMENT WHEN READY)
+   * Keep this object accurate before you uncomment the <script>.
+   * --------------------------------------------- */
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: brand.name,
-    url: "https://",
-    logo: brand.logo,
+    // url: "https://your-domain.com", // TODO: set real site URL
+    // logo: brand.logo,               // TODO: ensure absolute URL if possible
     serviceType: "Video Editing & Content Creation",
-    sameAs: socials.map((s) => s.href),
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        email,
-        telephone: phone,
-        areaServed: "",
-        availableLanguage: ["en"],
-      },
-    ],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: addressLines[0],
-      addressLocality: "",
-      addressCountry: "",
-    },
+    sameAs: socials.map((s) => s.href).filter(Boolean),
+    // contactPoint: [
+    //   {
+    //     "@type": "ContactPoint",
+    //     contactType: "customer support",
+    //     email, // e.g., "hello@your-domain.com"
+    //     telephone: phone, // e.g., "+923001234567"
+    //     areaServed: "PK", // TODO: 2-letter country code(s)
+    //     availableLanguage: ["en"], // TODO: add more if needed
+    //   },
+    // ],
+    // address: {
+    //   "@type": "PostalAddress",
+    //   streetAddress: addressLines.filter(Boolean).join(", "),
+    //   addressLocality: "Karachi", // TODO
+    //   addressRegion: "Sindh",     // TODO
+    //   postalCode: "75530",        // TODO
+    //   addressCountry: "PK",       // TODO (2-letter)
+    // },
   };
 
   const year = new Date().getFullYear();
@@ -76,18 +100,29 @@ export default function Footer({ brand, legal }: FooterProps) {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-white/15">
-                 
+                  {/* 
+                  // TODO: Uncomment when logo is final (prefer next/image with absolute/static asset)
+                  <Image
+                    src={brand.logo}
+                    alt={`${brand.name} logo`}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                    priority={false}
+                  />
+                  */}
                 </div>
                 <span className="text-lg font-semibold text-white">
-                 Stratos
+                  {/* Prefer dynamic brand name passed via props */}
+                  {brand.name || "Stratos"}
                 </span>
               </div>
 
               <p className="text-sm leading-relaxed text-gray-400">
-                {brand.tagline}
+                {brand.tagline /* TODO: provide a succinct, keyword-aware tagline */}
               </p>
 
-              {/* Animated brand CTA */}
+              {/* CTA (safe to keep generic) */}
               <Link
                 href="/book-call"
                 className={`relative inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold text-white ${styles.btnAnimated}`}
@@ -95,10 +130,12 @@ export default function Footer({ brand, legal }: FooterProps) {
                 <span className="relative z-10">Book a Strategy Call</span>
               </Link>
 
-              <p className="text-xs text-gray-500">{legal.badgeNote}</p>
+              <p className="text-xs text-gray-500">
+                {legal.badgeNote /* e.g., “Limited spots available monthly.” */}
+              </p>
             </div>
 
-            {/* Programs */}
+            {/* Programs (site nav) */}
             <nav aria-label="Programs">
               <h3 className="mb-3 text-sm font-semibold text-white/90">
                 Programs
@@ -120,7 +157,7 @@ export default function Footer({ brand, legal }: FooterProps) {
               </ul>
             </nav>
 
-            {/* Explore */}
+            {/* Explore / Legal Links */}
             <nav aria-label="Explore">
               <h3 className="mb-3 text-sm font-semibold text-white/90">
                 Explore
@@ -149,25 +186,33 @@ export default function Footer({ brand, legal }: FooterProps) {
               </h3>
 
               <address className="not-italic text-sm text-gray-300">
-                {addressLines.map((line) => (
+                {addressLines.filter(Boolean).map((line) => (
                   <div key={line}>{line}</div>
                 ))}
-                <div className="mt-2">
-                  <a
-                    href={`tel:${phone.replace(/[^+\d]/g, "")}`}
-                    className="transition hover:text-white"
-                  >
-                    {phone}
-                  </a>
-                </div>
-                <div>
-                  <a
-                    href={`mailto:${email}`}
-                    className="transition hover:text-white"
-                  >
-                    {email}
-                  </a>
-                </div>
+
+                {/* Phone (click-to-call) */}
+                {phone && (
+                  <div className="mt-2">
+                    <a
+                      href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                      className="transition hover:text-white"
+                    >
+                      {phone}
+                    </a>
+                  </div>
+                )}
+
+                {/* Email (click-to-email) */}
+                {email && (
+                  <div>
+                    <a
+                      href={`mailto:${email}`}
+                      className="transition hover:text-white"
+                    >
+                      {email}
+                    </a>
+                  </div>
+                )}
               </address>
 
               <h4 className="mt-5 mb-2 text-xs font-semibold text-white/90">
@@ -184,11 +229,20 @@ export default function Footer({ brand, legal }: FooterProps) {
                       aria-label={s.label}
                       title={s.label}
                     >
+                      {/* You can swap to icons later (lucide-react) */}
                       {s.label}
                     </a>
                   </li>
                 ))}
               </ul>
+
+              {/* Example: icon variant (COMMENTED)
+              <ul className="mt-2 flex gap-3 text-gray-300">
+                <li><a href="https://instagram.com/..." aria-label="Instagram" className="hover:text-white"><Instagram className="h-4 w-4" /></a></li>
+                <li><a href="https://linkedin.com/..." aria-label="LinkedIn" className="hover:text-white"><Linkedin className="h-4 w-4" /></a></li>
+                <li><a href="https://youtube.com/..." aria-label="YouTube" className="hover:text-white"><Youtube className="h-4 w-4" /></a></li>
+              </ul>
+              */}
             </div>
           </div>
 
@@ -196,15 +250,27 @@ export default function Footer({ brand, legal }: FooterProps) {
 
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-gray-400 md:flex-row md:items-center">
             <p>
-              © {year} Stratos. All rights reserved.
+              © {year} {legal.copyrightName || brand.name || "Stratos"}. All rights reserved.
             </p>
+
+            {/* Optional: secondary legal items (COMMENTED)
+            <ul className="flex flex-wrap gap-4">
+              <li><Link href="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
+              <li><Link href="/cookies" className="hover:text-white">Cookie Policy</Link></li>
+            </ul>
+            */}
           </div>
 
+          {/* ---------------------------------------------
+              STRUCTURED DATA (UNCOMMENT WHEN FIELDS ARE REAL)
+              ---------------------------------------------
           <script
             type="application/ld+json"
             suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
           />
+          */}
         </div>
       </div>
     </footer>

@@ -8,15 +8,13 @@ import CTAButton from "./CTAButton";
 import { motion } from "framer-motion";
 import { Briefcase, TrendingUp, Users, Volume2, VolumeX } from "lucide-react";
 
-/** Small util: ensure we always use Loom /embed/ and (re)apply URL params */
 function buildLoomSrc(embedUrl: string, opts: { autoplay?: 0|1; muted?: 0|1; loop?: 0|1 }) {
   // normalize to /embed/<id>
-  let base = embedUrl
+  const base = embedUrl
     .replace("/share/", "/embed/")
     .replace("loom.com/share", "loom.com/embed");
 
   const url = new URL(base);
-  // Default params for clean embed
   url.searchParams.set("hide_owner", "true");
   url.searchParams.set("hide_share", "true");
   url.searchParams.set("autoplay", String(opts.autoplay ?? 1));
