@@ -8,19 +8,37 @@ export default function CTASection() {
   return (
     <section
       id="cta"
-      className="relative overflow-hidden py-24 sm:py-28 lg:py-32 text-white bg-[#0B0B12]"
       aria-label="Call to action"
+      className="
+        relative overflow-hidden py-24 sm:py-28 lg:py-32 text-white
+        bg-black
+      "
+      style={
+        {
+          // Background image with cover + centered framing
+          backgroundImage: "url('/images/cta-bg.jpg')", // <- replace with your image path
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        } as React.CSSProperties
+      }
     >
-      {/* Background: brand glows + faint grid */}
+      {/* Darken overlay */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-black/70" />
+
+      {/* Red brand glows */}
       <div
         className="
           pointer-events-none absolute inset-0 -z-10
-          bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(51,84,165,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(164,120,255,0.25),transparent_50%)]
+          bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(255,45,85,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(255,70,70,0.25),transparent_50%)]
+          mix-blend-screen
         "
       />
+
+      {/* Faint grid for texture */}
       <div
         className="
-          pointer-events-none absolute inset-0 -z-10 opacity-[0.18]
+          pointer-events-none absolute inset-0 -z-10 opacity-[0.15]
           bg-[linear-gradient(0deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)]
           bg-[size:44px_44px]
           mask-image:[linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]
@@ -40,7 +58,7 @@ export default function CTASection() {
           <span
             className="
               bg-clip-text text-transparent
-              [background-image:linear-gradient(100deg,#3354A5,rgba(164,120,255,0.9))]
+              [background-image:linear-gradient(100deg,#FF2D55,rgba(255,90,90,0.95))]
             "
           >
             Business Playbook
@@ -53,11 +71,9 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15, duration: 0.8 }}
-          className="mt-6 text-base md:text-xl text-white/80"
+          className="mt-6 text-base md:text-xl text-white/85"
         >
-          Partner with{" "}
-          <span className="font-semibold text-white">Stratos</span>
-          
+          Partner with <span className="font-semibold text-white">Stratos</span>
         </motion.p>
 
         {/* CTA Button */}
@@ -73,10 +89,10 @@ export default function CTASection() {
             className="
               inline-flex items-center justify-center gap-2 rounded-xl
               px-10 py-4 text-base md:text-lg font-bold
-              shadow-[0_10px_40px_rgba(51,84,165,0.45)]
+              shadow-[0_10px_40px_rgba(255,45,85,0.45)]
               transition-transform duration-200 hover:scale-[1.03] active:scale-100
-              bg-[linear-gradient(90deg,#3354A5,#6C8BFF)]
-              hover:[background-image:linear-gradient(90deg,#4262B0,#7C9BFF)]
+              bg-[linear-gradient(90deg,#FF2D55,#FF5A5A)]
+              hover:[background-image:linear-gradient(90deg,#FF3A63,#FF6E6E)]
               focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20
             "
             aria-label="Book your coaching session"
@@ -91,20 +107,19 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.45, duration: 0.8 }}
-          className="mt-6 text-sm text-white/60"
+          className="mt-6 text-sm text-white/65"
         >
           Trusted by entrepreneurs and businesses across industries.
         </motion.p>
       </div>
 
-      {/* Foreground soft vignette for depth */}
+      {/* Foreground vignette for depth */}
       <div
         className="
           pointer-events-none absolute inset-0
           [mask-image:radial-gradient(90%_60%_at_50%_40%,black,transparent)]
           bg-[radial-gradient(800px_300px_at_50%_120%,rgba(0,0,0,0.45),transparent)]
         "
-        style={{} as React.CSSProperties}
       />
     </section>
   );

@@ -1,141 +1,207 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import StepsPills from "./StepsPills";
 import CTAButton from "./CTAButton";
 import { motion } from "framer-motion";
-import { Briefcase, TrendingUp, Users, Volume2, VolumeX } from "lucide-react";
+import { Briefcase, TrendingUp, Users, Pause, Play } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-function buildLoomSrc(embedUrl: string, opts: { autoplay?: 0|1; muted?: 0|1; loop?: 0|1 }) {
-  // normalize to /embed/<id>
-  const base = embedUrl
-    .replace("/share/", "/embed/")
-    .replace("loom.com/share", "loom.com/embed");
+/* -------- Red Theme Tokens -------- */
+const BRAND_RED = "#EF4444";
+const BRAND_RED_DARK = "#7F1D1D";
+const BRAND_RED_GLOW = "#FF1A1A";
+/* ---------------------------------- */
 
-  const url = new URL(base);
-  url.searchParams.set("hide_owner", "true");
-  url.searchParams.set("hide_share", "true");
-  url.searchParams.set("autoplay", String(opts.autoplay ?? 1));
-  url.searchParams.set("muted", String(opts.muted ?? 1));
-  url.searchParams.set("loop", String(opts.loop ?? 0));
-  return url.toString();
-}
+/* Small rotating text line under the H1 */
+function RotatingLine() {
+  const messages = useMemo(
+    () => [
+      "Landing pages, VSLs, email, CRM & funnels — all handled.",
+      "You focus on clients. We run the growth machine.",
+      "Acquisition → Nurture → Conversion → Ascension.",
+    ],
+    []
+  );
+  const [idx, setIdx] = useState(0);
 
-/** Inline VSL: autoplay muted, click to unmute in the same box */
-function InlineVSL({
-  embedUrl,          // e.g. https://www.loom.com/embed/cce0eb80-909f-4b4f-bdde-eb5d443f71a5
-  posterSrc,         // optional poster behind the iframe while it loads
-  posterAlt = "VSL Poster",
-}: {
-  embedUrl: string;
-  posterSrc?: string;
-  posterAlt?: string;
-}) {
-  const [muted, setMuted] = useState<0 | 1>(1);
-
-  // Rebuild src when muted changes (simple, reliable unmute)
-  const src = useMemo(() => buildLoomSrc(embedUrl, { autoplay: 1, muted, loop: 0 }), [embedUrl, muted]);
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % messages.length), 2600);
+    return () => clearInterval(t);
+  }, [messages.length]);
 
   return (
-    <div className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-2xl md:rounded-3xl border border-white/10 bg-black/40 shadow-[0_10px_60px_rgba(0,0,0,0.6)] backdrop-blur-md">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2 bg-gradient-to-r from-[#000000] via-[#461186] to-[#000000]" />
-      <div className="pointer-events-none absolute left-1/2 bottom-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2 bg-gradient-to-r from-[#000000] via-[#2e075e] to-[#000000]" />
+    <motion.p
+      key={idx}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="mt-3 text-center text-sm sm:text-base md:text-lg text-white/80 italic"
+    >
+      {messages[idx]}
+    </motion.p>
+  );
+}
 
-      <div className="relative aspect-video">
-        {/* Optional poster behind the iframe while it paints */}
-        {posterSrc && (
-          <Image
-            src={posterSrc}
-            alt={posterAlt}
-            fill
-            className="object-cover opacity-70"
-            priority={false}
+/* A subtle shimmer span for highlights */
+function Shimmer({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="relative inline-block">
+      <span
+        className="bg-clip-text text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, rgba(255,255,255,0.6) 0%, " +
+            `${BRAND_RED} 45%, rgba(255,255,255,0.9) 100%)`,
+          backgroundSize: "200% 100%",
+          animation: "shimmerX 2.2s linear infinite",
+        }}
+      >
+        {children}
+      </span>
+      <style jsx>{`
+        @keyframes shimmerX {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: 0% 0;
+          }
+        }
+      `}</style>
+    </span>
+  );
+}
+
+/* ------- Inline VSL with gradient border + center play/pause ------- */
+function InlineVSL() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play();
+      setIsPlaying(true);
+    } else {
+      v.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  return (
+    <div className="relative mx-auto w-full max-w-4xl">
+      {/* Gradient border frame */}
+      <div className="p-[1.5px] rounded-2xl md:rounded-3xl bg-gradient-to-r from-red-500/70 via-rose-400/80 to-red-600/70 shadow-[0_10px_60px_rgba(0,0,0,0.6)]">
+        <div className="relative overflow-hidden rounded-[15px] md:rounded-[20px] border border-white/10 bg-black/40 backdrop-blur-md">
+          {/* top and bottom accent bars */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2"
+            style={{
+              background: `linear-gradient(90deg, #000 0%, ${BRAND_RED} 50%, #000 100%)`,
+            }}
           />
-        )}
+          <div
+            className="pointer-events-none absolute left-1/2 bottom-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2"
+            style={{
+              background: `linear-gradient(90deg, #000 0%, ${BRAND_RED_DARK} 50%, #000 100%)`,
+            }}
+          />
 
-        {/* Loom embed — autoplays muted */}
-        <iframe
-          key={src} // force refresh when toggling mute param
-          src={src}
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-          loading="lazy"
-          className="absolute inset-0 h-full w-full"
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+          {/* Video */}
+          <div className="relative aspect-video">
+            <video
+              ref={videoRef}
+              className="absolute inset-0 h-full w-full object-cover"
+              src="/images/caoch.mp4" // your local file
+              playsInline
+              preload="metadata"
+              // do not autoplay here; let the button control it
+            />
 
-        {/* Mute/Unmute toggle */}
-        <button
-          onClick={() => setMuted((m) => (m ? 0 : 1))}
-          className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-sm font-medium text-black shadow-lg backdrop-blur transition hover:scale-[1.03]"
-          aria-label={muted ? "Unmute video" : "Mute video"}
-        >
-          {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-          {muted ? "Unmute" : "Mute"}
-        </button>
+            {/* Center Play/Pause button */}
+            <button
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause video" : "Play video"}
+              className="group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-sm px-5 py-5 md:px-6 md:py-6 transition
+                         hover:bg-black/70 hover:scale-105 active:scale-95"
+            >
+              {isPlaying ? (
+                <Pause className="h-6 w-6 md:h-7 md:w-7 text-white" />
+              ) : (
+                <Play className="h-6 w-6 md:h-7 md:w-7 text-white translate-x-[2px]" />
+              )}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 export default function HeroSection() {
-  // IMPORTANT: must be /embed/ (NOT /share/, NOT blob:)
-  const LOOM_EMBED_URL = "https://www.loom.com/embed/cce0eb80-909f-4b4f-bdde-eb5d443f71a5";
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen md:min-h-[140vh] w-full overflow-hidden bg-black text-white"
+      className="relative min-h-screen md:min-h-[140vh] w-full overflow-hidden text-white bg-black"
     >
-      {/* BG */}
+      {/* --- VIDEO BACKGROUND ----------------------------------------- */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        <Image src="/images/bgtexture.jpg" alt="Full BG" fill priority className="object-cover" />
-        <div
-          className="
-            absolute inset-0 z-10 bg-black/94
-            [mask-image:radial-gradient(60%_50%_at_50%_45%,transparent_0%,transparent_55%,black_56%),
-                         radial-gradient(40%_28%_at_50%_6%,transparent_0%,transparent_50%,black_51%)]
-            [mask-composite:exclude] [-webkit-mask-composite:xor]
-          "
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/images/bg video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/bg video.mp4"
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 -bottom-15 z-0 hidden md:flex justify-center ">
-        <Image src="/images/NEON 3.png" alt="Background" width={1920} height={800} priority className="object-contain object-bottom" />
-      </div>
+      {/* Extra red gradients (subtle glow) */}
+      <div
+        className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60vmin] w-[60vmin] rounded-full blur-[120px] opacity-25"
+        style={{
+          background: `radial-gradient(40% 40% at 50% 50%, ${BRAND_RED_GLOW}, transparent 70%)`,
+        }}
+      />
+      <div
+        className="pointer-events-none absolute right-[-8%] top-[10%] h-[55vmin] w-[55vmin] rounded-full blur-[130px] opacity-20"
+        style={{
+          background: `radial-gradient(45% 45% at 50% 50%, ${BRAND_RED}, transparent 72%)`,
+        }}
+      />
+      <div
+        className="pointer-events-none absolute left-1/2 top-[35%] -translate-x-1/2 h-[90vmin] w-[90vmin] blur-[140px] opacity-15"
+        style={{
+          background: `conic-gradient(from 210deg at 50% 50%, ${BRAND_RED_DARK}, transparent 40%, ${BRAND_RED} 70%, transparent 85%, ${BRAND_RED_DARK})`,
+          borderRadius: "50%",
+        }}
+      />
 
-      <div className="pointer-events-none absolute left-1/2 -top-24 h-40 w-40 -translate-x-[80px] rounded-full bg-white/20 blur-[80px] md:h-[420px] md:w-[420px] md:-top-90 md:bg-white/35 md:blur-[180px]" />
-      <div className="pointer-events-none absolute -left-10 bottom-0 hidden md:block h-[520px] w-[520px] rounded-full bg-[#3154A5]/30 blur-[220px] translate-y-[-100px]" />
-      <div className="pointer-events-none absolute -right-10 bottom-0 hidden md:block h-[520px] w-[520px] rounded-full bg-[#3154A5]/30 blur-[220px] translate-y-[-100px]" />
-
-      {/* CONTENT */}
+      {/* --- CONTENT ---------------------------------------------------- */}
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 sm:px-6 pt-20 md:pt-28">
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center text-[32px] leading-[1.15] sm:text-[36px] md:text-[84px] font-bold tracking-tight"
+          // Smaller sizes + tighter leading + italics sprinkled
+          className="text-center font-bold tracking-tight mt-16
+                     text-[clamp(26px,6vw,56px)] leading-[1.08]"
         >
-          <span className="text-[#3154A5]">From ‘Just a Tool’ to a Complete Team</span>{" "}
-          <span className="text-white">I built Stratos Because You Asked for It</span>
+          We build & operate your{" "}
+          <em className="not-italic md:italic">Sales + Marketing</em> engine to
+          scale your coaching offer to{" "}
+          <span className="font-semibold" style={{ color: BRAND_RED }}>
+            <Shimmer>$100k/Mo</Shimmer>
+          </span>
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.05, duration: 0.7 }}
-          className="mt-4 flex items-center gap-2 text-center text-[13px] sm:text-sm text-gray-300 md:text-base px-2"
-        >
-          <span className="max-w-[52ch]">
-            When I launched the Twin Method, I thought I solved it all. But then the messages started flooding in...
-          </span>
-        </motion.p>
+        <RotatingLine />
 
-        {/* VSL CARD — inline, autoplay muted, click to unmute */}
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -143,42 +209,38 @@ export default function HeroSection() {
           transition={{ delay: 0.1, duration: 0.7 }}
           className="relative mt-8 md:mt-10 w-full"
         >
-          <InlineVSL
-            embedUrl={LOOM_EMBED_URL}
-            posterSrc="/images/vslcover.jpg"
-          />
+          <InlineVSL />
 
           <Link href="#cta">
-            <div className="flex justify-center my-10 md:my-18 px-2">
+            <div className="flex justify-center my-8 md:my-12 px-2">
               <CTAButton />
             </div>
           </Link>
 
-          <div className="my-8 md:my-12 px-2">
+          <div className="my-6 md:my-10 px-2">
             <StepsPills
-           steps={[
-  { 
-    id: 1, 
-    label: "Content Engine", 
-    title: "Done-For-You Creation", 
-    icon: <Briefcase className="h-5 w-5" /> 
-  },
-  { 
-    id: 2, 
-    label: "Premium Service", 
-    title: "High-Touch Execution", 
-    icon: <TrendingUp className="h-5 w-5" /> 
-  },
-  { 
-    id: 3, 
-    label: "Brand Growth", 
-    title: "Scale With Authority", 
-    icon: <Users className="h-5 w-5" /> 
-  },
-]}
-
-              iconColorFrom="from-[#3154A5]"
-              iconColorTo="to-[#1f346b]"
+              steps={[
+                {
+                  id: 1,
+                  label: "Content Engine",
+                  title: "Done-For-You Creation",
+                  icon: <Briefcase className="h-5 w-5" />,
+                },
+                {
+                  id: 2,
+                  label: "Premium Service",
+                  title: "High-Touch Execution",
+                  icon: <TrendingUp className="h-5 w-5" />,
+                },
+                {
+                  id: 3,
+                  label: "Brand Growth",
+                  title: "Scale With Authority",
+                  icon: <Users className="h-5 w-5" />,
+                },
+              ]}
+              iconColorFrom="from-red-500"
+              iconColorTo="to-rose-900"
             />
           </div>
         </motion.div>

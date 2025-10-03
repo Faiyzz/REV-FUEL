@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
 
 type NavItem = { label: string; href: string };
 type Props = {
@@ -23,23 +22,17 @@ export default function PillNavbar({
     { label: "Get Coached", href: "#cta" },
   ],
   cta = { label: "Book Session", href: "#cta" },
-  logoSrc = "/images/log.png",
-  logoAlt = "",
 }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // close mobile sheet on route change
   useEffect(() => setOpen(false), [pathname]);
 
-  // lock body scroll when mobile menu open
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return () => void (document.body.style.overflow = prev);
   }, [open]);
 
   const isActive = (href: string) =>
@@ -47,27 +40,37 @@ export default function PillNavbar({
 
   return (
     <header
-      className="pill-navbar fixed inset-x-0 top-0 z-50 is-glassy"
+      className={[
+        "fixed inset-x-0 top-4 z-50",
+        "bg-transparent border-0",
+        "pointer-events-none",
+      ].join(" ")}
       role="banner"
       aria-label="Primary"
     >
-      <nav className="mx-auto max-w-7xl transition-[filter,background,box-shadow,border-color] duration-300 will-change-[filter,background]">
-        <div className="pill-navbar__shell">
-          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-1 md:gap-3 px-2.5 py-2 md:px-4 md:py-2.5">
-            {/* Logo */}
+      <nav className="mx-auto max-w-7xl">
+        {/* full width pill container */}
+        <div className="mx-auto w-full max-w-7xl px-3 md:px-6 pointer-events-auto">
+          <div
+            className={[
+              "pill-navbar__shell on-hero-shell",
+              "grid grid-cols-[auto_1fr_auto] items-center gap-1 md:gap-3",
+              "px-4 md:px-6 py-3 md:py-3.5", // restored height + padding
+            ].join(" ")}
+          >
+            {/* Brand */}
             <Link
               href="/"
               className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               aria-label="Stratos"
             >
-             
               <span className="text-lg md:text-xl font-bold tracking-wide text-white">
-                Stratos
+                RavFuel
               </span>
             </Link>
 
             {/* Center links */}
-            <ul className="hidden md:flex items-center justify-center gap-1">
+            <ul className="hidden md:flex items-center justify-center gap-2">
               {items.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -87,7 +90,7 @@ export default function PillNavbar({
                         {item.label}
                         <span
                           className={[
-                            "nav-underline",
+                            "nav-underline-red",
                             active ? "scale-x-100" : "group-hover:scale-x-100",
                           ].join(" ")}
                         />
@@ -100,12 +103,15 @@ export default function PillNavbar({
 
             {/* Right cluster */}
             <div className="flex items-center justify-end gap-1 md:gap-2">
-              {/* Desktop CTA */}
               <Link
                 href={cta.href}
-                className="hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white relative overflow-hidden btn-animated-bg"
+                className="hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white relative overflow-hidden btn-animated-red group"
               >
                 <span className="relative z-10">{cta.label}</span>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:animate-shimmer"
+                />
               </Link>
 
               {/* Mobile trigger */}
@@ -131,12 +137,13 @@ export default function PillNavbar({
       <div
         id="mobile-nav-sheet"
         className={[
-          "md:hidden transition-[max-height,opacity] duration-300 overflow-hidden",
+          "md:hidden transition-[max-height,opacity] duration-300 overflow-hidden mt-3",
           open ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0",
+          "pointer-events-auto",
         ].join(" ")}
         aria-hidden={!open}
       >
-        <div className="mt-3 mx-auto max-w-7xl rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-2.5">
+        <div className="mx-auto max-w-7xl rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-2.5">
           <ul className="flex flex-col">
             {items.map((item) => {
               const active = isActive(item.href);
@@ -160,14 +167,76 @@ export default function PillNavbar({
             <li className="pt-2">
               <Link
                 href={cta.href}
-                className="relative overflow-hidden flex items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold text-white btn-animated-bg"
+                className="relative overflow-hidden flex items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold text-white btn-animated-red group"
               >
                 <span className="relative z-10">{cta.label}</span>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:animate-shimmer"
+                />
               </Link>
             </li>
           </ul>
         </div>
       </div>
+
+      {/* Styles */}
+      <style jsx global>{`
+        .pill-navbar__shell {
+          border-radius: 9999px;
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.04)
+          );
+          box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(10px) saturate(150%);
+          transition: background 250ms ease, box-shadow 250ms ease,
+            border-color 250ms ease;
+        }
+
+        .btn-animated-red {
+          background-image: linear-gradient(
+            90deg,
+            rgba(239, 68, 68, 1) 0%,
+            rgba(220, 38, 38, 1) 50%,
+            rgba(185, 28, 28, 1) 100%
+          );
+          box-shadow: 0 10px 20px rgba(220, 38, 38, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-underline-red {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -0.3rem;
+          height: 2px;
+          border-radius: 2px;
+          transform-origin: left;
+          transform: scaleX(0);
+          transition: transform 200ms ease;
+          background: linear-gradient(
+            to right,
+            rgba(248, 113, 113, 1),
+            rgba(190, 18, 60, 1)
+          );
+        }
+
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        .animate-shimmer {
+          animation: shimmer 1s ease-in-out forwards;
+        }
+      `}</style>
     </header>
   );
 }

@@ -12,36 +12,41 @@ type Step = {
   images: string[];
 };
 
-const BRAND = "#6E4BFF";
+const BRAND = "#DC2626"; // red-600
+const BRAND_SOFT = "rgba(220,38,38,.65)";
+const BRAND_GLOW = "rgba(220,38,38,.35)";
+
 const STEPS: Step[] = [
   {
-    title: "Pre-Production",
+    title: "Initial Consultation",
     blurb:
-      "This phase involves everything prior to filming. We start by listening — to your wants, needs, ideas, problems, and everything in between.",
+      "Book a free, no-obligation consultation. We’ll unpack your current sales and marketing, identify bottlenecks, and align on goals.",
     bullets: [
-      "Concept Development",
-      "Scriptwriting",
-      "Storyboarding & Animatics",
-      "Plan, Plan, Plan",
+      "Discovery Call",
+      "Goals & Constraints",
+      "Pain Points & Priorities",
     ],
     images: ["/images/process/pre-1.jpg"],
   },
   {
-    title: "Production",
+    title: "Audit & Custom Strategy",
     blurb:
-      "This is where the most fun happens. Press record and watch everything we planned come to life.",
-    bullets: ["Cinematography", "Sound Recording"],
+      "We run a comprehensive audit of your funnels, CRM, emails, and tracking. Then we design a tailored strategy to improve efficiency, lead flow, and forecasting.",
+    bullets: [
+      "Systems & Funnel Audit",
+      "CRM & Nurture Review",
+      "Custom Strategy & KPIs",
+    ],
     images: ["/images/process/prod-1.jpg"],
   },
   {
-    title: "Post-Production",
+    title: "Implementation & Optimization",
     blurb:
-      "Everything takes its final form here. After hard work, we get to celebrate the fruits of our labour.",
+      "We implement the plan, integrate with your stack, then keep running and optimizing your sales and marketing for compounding results.",
     bullets: [
-      "Editing",
-      "Colour Grading",
-      "3D Animation & CG",
-      "Sound Design & Music",
+      "Seamless Integrations",
+      "Automation & Reporting",
+      "Ongoing Testing & Iteration",
     ],
     images: ["/images/process/post-1.jpg"],
   },
@@ -58,8 +63,11 @@ export default function ProcessSection() {
     <section className="relative isolate overflow-hidden bg-[#0B0B12] text-white">
       {/* background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(1000px_500px_at_20%_0%,rgba(120,80,255,0.25),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(120,80,255,0.18),transparent_55%)]" />
+        {/* red glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(1000px_500px_at_20%_0%,rgba(220,38,38,0.28),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(220,38,38,0.2),transparent_55%)]" />
+        {/* subtle grid */}
         <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(0deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:44px_44px]" />
+        {/* vignette */}
         <div className="absolute inset-0 [mask-image:radial-gradient(80%_60%_at_50%_40%,black,transparent)] bg-[radial-gradient(800px_300px_at_50%_120%,rgba(0,0,0,0.5),transparent)]" />
       </div>
 
@@ -70,15 +78,14 @@ export default function ProcessSection() {
             Our Process
           </h2>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
-            From concept to final cut, we follow a clear and creative process
-            that turns your vision into a compelling story — crafted to connect,
-            inspire, and stand out.
+            A clear, managed path from discovery to deployment—engineered to
+            optimize your sales & marketing and keep improving over time.
           </p>
         </div>
 
         {/* timeline */}
         <div ref={containerRef} className="relative mt-12 sm:mt-16">
-          {/* base spine (behind everything) */}
+          {/* base spine */}
           <div
             className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px z-0"
             style={{
@@ -92,9 +99,8 @@ export default function ProcessSection() {
             style={{
               height: "100%",
               scaleY: scrollYProgress,
-              background:
-                "linear-gradient(180deg, rgba(110,75,255,0) 0%, rgba(110,75,255,.65) 40%, rgba(110,75,255,.65) 100%)",
-              boxShadow: "0 0 18px rgba(110,75,255,.35)",
+              background: `linear-gradient(180deg, rgba(220,38,38,0) 0%, ${BRAND_SOFT} 40%, ${BRAND_SOFT} 100%)`,
+              boxShadow: `0 0 18px ${BRAND_GLOW}`,
             }}
           />
 
@@ -102,22 +108,21 @@ export default function ProcessSection() {
             {STEPS.map((step, i) => {
               const imageOnLeft = i % 2 === 0;
 
-              // side paddings to create visible gap from spine on both sides
               const imgSidePad = imageOnLeft ? "md:pr-12" : "md:pl-12";
               const textSidePad = imageOnLeft ? "md:pl-12" : "md:pr-12";
 
               return (
                 <div key={i} className="relative">
-                  {/* ERASE the spine behind the node + give the node solid color */}
+                  {/* erase the spine behind the node + solid node */}
                   <div className="absolute left-1/2 -translate-x-1/2 -top-2 sm:-top-3 z-10">
-                    {/* big eraser disc so no black bar shows through */}
+                    {/* eraser disc */}
                     <div
                       className="absolute -inset-3 rounded-full bg-[#0B0B12]"
                       aria-hidden
                     />
-                    {/* solid brand node with white number */}
+                    {/* brand node */}
                     <div
-                      className="relative grid place-items-center h-10 w-10 sm:h-12 sm:w-12 rounded-full text-sm sm:text-base font-bold text-white ring-1 ring-white/20 shadow-[0_6px_28px_rgba(110,75,255,.45)]"
+                      className="relative grid place-items-center h-10 w-10 sm:h-12 sm:w-12 rounded-full text-sm sm:text-base font-bold text-white ring-1 ring-white/20 shadow-[0_6px_28px_rgba(220,38,38,.45)]"
                       style={{ background: BRAND }}
                     >
                       {i + 1}
