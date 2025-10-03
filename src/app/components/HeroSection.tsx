@@ -97,18 +97,7 @@ function InlineVSL() {
       <div className="p-[1.5px] rounded-2xl md:rounded-3xl bg-gradient-to-r from-red-500/70 via-rose-400/80 to-red-600/70 shadow-[0_10px_60px_rgba(0,0,0,0.6)]">
         <div className="relative overflow-hidden rounded-[15px] md:rounded-[20px] border border-white/10 bg-black/40 backdrop-blur-md">
           {/* top and bottom accent bars */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2"
-            style={{
-              background: `linear-gradient(90deg, #000 0%, ${BRAND_RED} 50%, #000 100%)`,
-            }}
-          />
-          <div
-            className="pointer-events-none absolute left-1/2 bottom-0 h-[4px] md:h-[6px] w-[88%] md:w-[80%] -translate-x-1/2"
-            style={{
-              background: `linear-gradient(90deg, #000 0%, ${BRAND_RED_DARK} 50%, #000 100%)`,
-            }}
-          />
+         
 
           {/* Video */}
           <div className="relative aspect-video">
