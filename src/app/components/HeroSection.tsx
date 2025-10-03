@@ -115,10 +115,9 @@ function InlineVSL() {
             <video
               ref={videoRef}
               className="absolute inset-0 h-full w-full object-cover"
-              src="/images/caoch.mp4" // your local file
+              src="/images/" // replace with your actual local video path
               playsInline
               preload="metadata"
-              // do not autoplay here; let the button control it
             />
 
             {/* Center Play/Pause button */}
@@ -141,22 +140,21 @@ function InlineVSL() {
   );
 }
 
+/* ---------------- HERO SECTION ---------------- */
 export default function HeroSection() {
   return (
     <section
       id="hero"
       className="relative min-h-screen md:min-h-[140vh] w-full overflow-hidden text-white bg-black"
     >
-      {/* --- VIDEO BACKGROUND ----------------------------------------- */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          src="/images/bg video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/bg video.mp4"
+      {/* --- IMAGE BACKGROUND ----------------------------------------- */}
+      <div className="pointer-events-none absolute inset-0 z-0 mt-20 ">
+        <Image
+          src="/images/RED-bg1.png"
+          alt="Red background"
+          fill
+          priority
+          className="object-cover"
         />
       </div>
 
@@ -188,7 +186,6 @@ export default function HeroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          // Smaller sizes + tighter leading + italics sprinkled
           className="text-center font-bold tracking-tight mt-16
                      text-[clamp(26px,6vw,56px)] leading-[1.08]"
         >
