@@ -54,7 +54,7 @@ export default function Footer({ brand, legal }: FooterProps) {
               <div className="flex items-center gap-3">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-red-500/30 bg-red-600/20" />
                 <span className="text-lg font-semibold text-white">
-                  {brand.name || "Stratos"}
+                  {brand.name || "RevFuel"}
                 </span>
               </div>
 
@@ -170,7 +170,7 @@ export default function Footer({ brand, legal }: FooterProps) {
 
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-gray-400 md:flex-row md:items-center">
             <p>
-              © {year} {legal.copyrightName || brand.name || "Stratos"}. All
+              © {year} {legal.copyrightName || brand.name || "RevFuel"}. All
               rights reserved.
             </p>
           </div>
